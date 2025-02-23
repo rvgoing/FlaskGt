@@ -4,7 +4,11 @@ import requests
 app = Flask(__name__)
 
 API_KEY = "e12e36503ebdefccbc6c4d8bf9a6158f"  # Replace with your API Key
-CITY = "Taipei"
+
+CITIES = {
+    "Taipei": "Taipei",
+    "Tokyo": "Tokyo"
+}
 
 @app.route("/")
 def home():
@@ -12,15 +16,19 @@ def home():
 
 @app.route("/api/weather")
 def get_weather():
-    url = f"https://api.openweathermap.org/data/2.5/forecast?q={CITY}&appid={API_KEY}&units=metric"
-    response = requests.get(url)
-    data = response.json()
+    data_dict = {}
 
-    # Extract temperature data for the next 8 time slots
-    labels = [item["dt_txt"] for item in data["list"][:18]]
-    temps = [item["main"]["temp"] for item in data["list"][:18]]
+    for city_name, city in CITIES.items():
+        url = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={API_KEY}&units=metric"
+        response = requests.get(url)
+        data = response.json()
 
-    return jsonify({"labels": labels, "temps": temps})
+        labels = [item["dt_txt"] for item in data["list"][:8]]
+        temps = [item["main"]["temp"] for item in data["list"][:8]]
+
+        data_dict[city_name] = {"labels": labels, "temps": temps}
+
+    return jsonify(data_dict)
 
 if __name__ == "__main__":
     app.run(debug=True)
