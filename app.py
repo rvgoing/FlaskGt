@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-API_KEY = "YOUR_OPENWEATHERMAP_API_KEY"  # Replace with your API Key
+API_KEY = "e12e36503ebdefccbc6c4d8bf9a6158f"  # Replace with your API Key
 CITY = "Taipei"
 
 @app.route("/")
