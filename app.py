@@ -26,6 +26,16 @@ def hello():
     """Just say hello."""
     click.echo('Hello, Human!')
 
+def check_api_key(api_key):
+    url = 'http://api.openweathermap.org/data/2.5/weather'
+    params = {
+        'lat': 25.0330,
+        'lon': 121.5654,
+        'appid': 98d3e2789160b7e80590153f2451c490
+    }
+    response = requests.get(url, params=params)
+    return response.status_code == 200
+
 def fetch_weather_data():
     api_key = '98d3e2789160b7e80590153f2451c490'
     lat, lon = 25.0330, 121.5654
