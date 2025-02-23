@@ -64,8 +64,6 @@ def fetch_weather_data(api_key):
     temperatures = [temp for temp in temperatures if temp is not None]
     humidities = [hum for hum in humidities if hum is not None]
     return temperatures, humidities
-    
-
 
 @app.route('/chart')
 def chart():
