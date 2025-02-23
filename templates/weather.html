@@ -5,7 +5,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <h1>Weather Forecast for Taipei</h1>
+    <h1>Weather Forecast for Taipei & Tokyo</h1>
     <canvas id="weatherChart"></canvas>
 
     <script>
@@ -13,16 +13,25 @@
             .then(response => response.json())
             .then(data => {
                 const ctx = document.getElementById("weatherChart").getContext("2d");
+                
                 new Chart(ctx, {
                     type: "line",
                     data: {
-                        labels: data.labels,
-                        datasets: [{
-                            label: "Temperature (°C)",
-                            data: data.temps,
-                            borderColor: "blue",
-                            fill: false
-                        }]
+                        labels: data.Taipei.labels,
+                        datasets: [
+                            {
+                                label: "Taipei Temperature (°C)",
+                                data: data.Taipei.temps,
+                                borderColor: "blue",
+                                fill: false
+                            },
+                            {
+                                label: "Tokyo Temperature (°C)",
+                                data: data.Tokyo.temps,
+                                borderColor: "red",
+                                fill: false
+                            }
+                        ]
                     }
                 });
             });
