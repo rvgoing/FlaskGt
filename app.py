@@ -27,7 +27,7 @@ def hello():
     click.echo('Hello, Human!')
 
 def fetch_weather_data():
-    api_key = 'YOUR_OPENWEATHERMAP_API_KEY'
+    api_key = '98d3e2789160b7e80590153f2451c490'
     lat, lon = 25.0330, 121.5654
     url = f'http://api.openweathermap.org/data/2.5/onecall/timemachine'
     temperatures = []
