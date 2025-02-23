@@ -8,7 +8,7 @@ from flask import Flask, Response
 app = Flask(__name__)
 
 # Define the API key at the beginning
-api_key = 'e12e36503ebdefccbc6c4d8bf9a6158f'
+API_KEY = 'e12e36503ebdefccbc6c4d8bf9a6158f'
 
 @app.route('/')
 def index():
