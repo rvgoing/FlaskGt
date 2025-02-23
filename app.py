@@ -8,7 +8,7 @@ from flask import Flask, Response
 app = Flask(__name__)
 
 # Define the API key at the beginning
-API_KEY = 'e12e36503ebdefccbc6c4d8bf9a6158f'
+api_key = 'e12e36503ebdefccbc6c4d8bf9a6158f'
 
 @app.route('/')
 def index():
@@ -40,6 +40,8 @@ def check_api_key(api_key):
     return response.status_code == 200
 
 def fetch_weather_data(api_key):
+    if not check_api_key(api_key):
+        raise ValueError('Invalid API key or the key is not live.')
     lat, lon = 25.0330, 121.5654
     url = f'http://api.openweathermap.org/data/2.5/onecall/timemachine'
     temperatures = []
