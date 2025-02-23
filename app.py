@@ -27,23 +27,25 @@ def hello():
     click.echo('Hello, Human!')
 
 def fetch_weather_data():
-    api_key = '98d3e2789160b7e80590153f2451c490'
+    api_key = 'YOUR_OPENWEATHERMAP_API_KEY'
+    lat, lon = 25.0330, 121.5654
     url = f'http://api.openweathermap.org/data/2.5/onecall/timemachine'
-    params = {
-        'lat': 25.0330,
-        'lon': 121.5654,
-        'dt': 'TIMESTAMP',
-        'appid': api_key,
-        'units': 'metric'
-    }
     temperatures = []
     humidities = []
-    for timestamp in [int((datetime.datetime.utcnow() - datetime.timedelta(hours=i)).timestamp()) for i in range(1, 25)]:
-        params['dt'] = timestamp
+    for i in range(1, 25):
+        dt = int((datetime.datetime.utcnow() - datetime.timedelta(hours=i)).timestamp())
+        params = {
+            'lat': lat,
+            'lon': lon,
+            'dt': dt,
+            'appid': api_key,
+            'units': 'metric'
+        }
         response = requests.get(url, params=params)
         data = response.json()
-        temperatures.append(data['current']['temp'])
-        humidities.append(data['current']['humidity'])
+        if 'current' in data:
+            temperatures.append(data['current']['temp'])
+            humidities.append(data['current']['humidity'])
     return temperatures, humidities
 
 @app.route('/chart')
@@ -64,6 +66,7 @@ def chart():
     img.seek(0)
 
     return Response(img, mimetype='image/png')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
