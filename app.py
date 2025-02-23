@@ -75,19 +75,31 @@ def chart():
     temperature, humidity = fetch_weather_data(API_KEY)
     hours = list(range(len(temperature)))
 
+    # Create temperature chart
     plt.figure(figsize=(10, 5))
     plt.plot(hours, temperature, label='Temperature (°C)')
+    plt.xlabel('Hours')
+    plt.ylabel('Temperature (°C)')
+    plt.title('Temperature in Taipei City (Past 24 Hours)')
+    plt.legend()
+    temp_img = io.BytesIO()
+    plt.savefig(temp_img, format='png')
+    temp_img.seek(0)
+    plt.close()
+
+    # Create humidity chart
+    plt.figure(figsize=(10, 5))
     plt.plot(hours, humidity, label='Humidity (%)')
     plt.xlabel('Hours')
-    plt.ylabel('Values')
-    plt.title('Temperature and Humidity in Taipei City (Past 24 Hours)')
+    plt.ylabel('Humidity (%)')
+    plt.title('Humidity in Taipei City (Past 24 Hours)')
     plt.legend()
+    hum_img = io.BytesIO()
+    plt.savefig(hum_img, format='png')
+    hum_img.seek(0)
+    plt.close()
 
-    img = io.BytesIO()
-    plt.savefig(img, format='png')
-    img.seek(0)
-
-    return Response(img, mimetype='image/png')
+    return send_file(temp_img, mimetype='image/png'), send_file(hum_img, mimetype='image/png')
 
 if __name__ == '__main__':
     app.run(debug=True)
