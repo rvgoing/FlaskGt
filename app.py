@@ -7,6 +7,9 @@ from flask import Flask, Response
 
 app = Flask(__name__)
 
+# Define the API key at the beginning
+API_KEY = 'YOUR_OPENWEATHERMAP_API_KEY'
+
 @app.route('/')
 def index():
     return '<h1>Hello, World!</h1>'
@@ -31,13 +34,12 @@ def check_api_key(api_key):
     params = {
         'lat': 25.0330,
         'lon': 121.5654,
-        'appid': 98d3e2789160b7e80590153f2451c490
+        'appid': e12e36503ebdefccbc6c4d8bf9a6158f
     }
     response = requests.get(url, params=params)
     return response.status_code == 200
 
-def fetch_weather_data():
-    api_key = '98d3e2789160b7e80590153f2451c490'
+def fetch_weather_data(api_key):
     lat, lon = 25.0330, 121.5654
     url = f'http://api.openweathermap.org/data/2.5/onecall/timemachine'
     temperatures = []
