@@ -1,8 +1,8 @@
 import io
-import datetime  # Add this import
+import datetime
 import requests
 import matplotlib.pyplot as plt
-from flask import Flask, Response
+from flask import Flask, Response, send_file
 
 
 app = Flask(__name__)
