@@ -17,8 +17,8 @@ def get_weather():
     data = response.json()
 
     # Extract temperature data for the next 8 time slots
-    labels = [item["dt_txt"] for item in data["list"][:8]]
-    temps = [item["main"]["temp"] for item in data["list"][:8]]
+    labels = [item["dt_txt"] for item in data["list"][:18]]
+    temps = [item["main"]["temp"] for item in data["list"][:18]]
 
     return jsonify({"labels": labels, "temps": temps})
 
