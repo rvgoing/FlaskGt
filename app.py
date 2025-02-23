@@ -44,14 +44,19 @@ def fetch_weather_data():
         response = requests.get(url, params=params)
         data = response.json()
         if 'current' in data:
-            temperatures.append(data['current']['temp'])
-            humidities.append(data['current']['humidity'])
+            temperatures.append(data['current'].get('temp', None))
+            humidities.append(data['current'].get('humidity', None))
+        else:
+            temperatures.append(None)
+            humidities.append(None)
+    temperatures = [temp for temp in temperatures if temp is not None]
+    humidities = [hum for hum in humidities if hum is not None]
     return temperatures, humidities
 
 @app.route('/chart')
 def chart():
     temperature, humidity = fetch_weather_data()
-    hours = list(range(24))
+    hours = list(range(len(temperature)))
 
     plt.figure(figsize=(10, 5))
     plt.plot(hours, temperature, label='Temperature (°C)')
@@ -66,7 +71,6 @@ def chart():
     img.seek(0)
 
     return Response(img, mimetype='image/png')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
