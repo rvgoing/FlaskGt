@@ -34,7 +34,7 @@ def check_api_key(api_key):
     params = {
         'lat': 25.0330,
         'lon': 121.5654,
-        'appid': e12e36503ebdefccbc6c4d8bf9a6158f
+        'appid': api_key
     }
     response = requests.get(url, params=params)
     return response.status_code == 200
