@@ -40,8 +40,6 @@ def check_api_key(api_key):
     return response.status_code == 200
 
 def fetch_weather_data(api_key):
-    if not check_api_key(api_key):
-        raise ValueError('Invalid API key or the key is not live.')
     lat, lon = 25.0330, 121.5654
     url = f'http://api.openweathermap.org/data/2.5/onecall/timemachine'
     temperatures = []
@@ -66,10 +64,15 @@ def fetch_weather_data(api_key):
     temperatures = [temp for temp in temperatures if temp is not None]
     humidities = [hum for hum in humidities if hum is not None]
     return temperatures, humidities
+    
+
 
 @app.route('/chart')
 def chart():
-    temperature, humidity = fetch_weather_data()
+    if not check_api_key(API_KEY):
+        return '<h1>Invalid API key or the key is not live.</h1>'
+    
+    temperature, humidity = fetch_weather_data(API_KEY)
     hours = list(range(len(temperature)))
 
     plt.figure(figsize=(10, 5))
