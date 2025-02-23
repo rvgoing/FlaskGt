@@ -1,0 +1,4 @@
+Flask
+gunicorn
+psycopg2-binary  # PostgreSQL driver
+line-bot-sdk      # LINE Bot SDK
