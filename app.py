@@ -23,8 +23,8 @@ def get_weather():
         response = requests.get(url)
         data = response.json()
 
-        labels = [item["dt_txt"] for item in data["list"][:8]]
-        temps = [item["main"]["temp"] for item in data["list"][:8]]
+        labels = [item["dt_txt"] for item in data["list"][:80]]
+        temps = [item["main"]["temp"] for item in data["list"][:80]]
 
         data_dict[city_name] = {"labels": labels, "temps": temps}
 
