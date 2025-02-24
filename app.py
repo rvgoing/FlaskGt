@@ -29,7 +29,7 @@ def weather_page():
 
 @app.route("/api/weather")
 def get_weather():
-    cities = ["Taipei", "Brisbane", "Tromso"]  # ✅ Cities for weather data
+    cities = ["Taipei", "Brisbane", "Moscow"]  # ✅ Cities for weather data
     tslot = request.args.get("tslot", default=10, type=int)  # ✅ Get `tslot` from URL, default=10
 
     print(f"🔍 [DEBUG] Received tslot: {tslot}")  # ✅ Print `tslot` in debug consol
