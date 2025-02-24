@@ -31,6 +31,9 @@ def weather_page():
 def get_weather():
     cities = ["Taipei", "Brisbane", "Oulu"]  # ✅ Cities for weather data
     tslot = request.args.get("tslot", default=10, type=int)  # ✅ Get `tslot` from URL, default=10
+
+    print(f"🔍 [DEBUG] Received tslot: {tslot}")  # ✅ Print `tslot` in debug consol
+    
     data = {city: get_weather_data(city, tslot) for city in cities}
     return jsonify(data)  # ✅ Return weather data as JSON
 
