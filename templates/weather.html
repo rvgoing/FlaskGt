@@ -4,34 +4,43 @@
     <title>Weather Forecast</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* ✅ Style for the time period label */
+        /* ✅ Ensure the chart container scales properly */
+        .chart-container {
+            width: 90vw; /* ✅ 90% of viewport width */
+            height: 60vh; /* ✅ 60% of viewport height */
+            max-width: 1200px; /* ✅ Limit max width */
+            margin: auto; /* ✅ Center the chart */
+        }
+
+        /* ✅ Style for time period label */
         #timePeriodLabel {
             font-size: 24px;
             font-weight: bold;
-            color: #ff5733;  /* Orange-Red for visibility */
+            color: #ff5733;
             text-align: center;
             margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Weather Forecast</h1>
+    <h1 style="text-align: center;">Weather Forecast</h1>
 
-    <!-- ✅ Time Period Display -->
-    <div id="timePeriodLabel">Showing last 10 time slots</div>  
+    <!-- ✅ Display actual time range -->
+    <div id="timePeriodLabel">Loading...</div>
 
-    <!-- Dropdown to select time slot -->
-    <label for="tslot">Select Time Slots:</label>
-    <select id="tslot" onchange="fetchWeatherData()">
-        <option value="10" selected>10</option>
-        <option value="30">30</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-    </select>
+    <div style="text-align: center;">
+        <label for="tslot">Select Time Slots:</label>
+        <select id="tslot" onchange="fetchWeatherData()">
+            <option value="10" selected>10</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+        <button onclick="window.location.href='/'">Back to Main Page</button>
+    </div>
 
-    <button onclick="window.location.href='/'">Back to Main Page</button>
-
-    <div style="width: 800px; height: 400px;">
+    <!-- ✅ Responsive Chart Container -->
+    <div class="chart-container">
         <canvas id="weatherChart"></canvas>
     </div>
 
@@ -40,9 +49,6 @@
 
         function fetchWeatherData() {
             const tslot = document.getElementById("tslot").value;
-
-            // ✅ Update the time period label
-            document.getElementById("timePeriodLabel").innerText = `Showing last ${tslot} time slots`;
 
             fetch(`/api/weather?tslot=${tslot}`)
                 .then(response => response.json())
@@ -60,21 +66,35 @@
                             data: data[city].temps,
                             borderColor: colors[index % colors.length],
                             fill: false,
-                            pointRadius: 0,
-                            pointHoverRadius: 0,
                             tension: 0.4
                         };
                     });
 
+                    const labels = data[Object.keys(data)[0]].labels;
+
+                    document.getElementById("timePeriodLabel").innerText = 
+                        `Showing data from ${labels[0]} to ${labels[labels.length - 1]}`;
+
                     weatherChart = new Chart(ctx, {
                         type: "line",
                         data: {
-                            labels: data[Object.keys(data)[0]].labels,
+                            labels: labels,
                             datasets: datasets
                         },
                         options: {
-                            responsive: true,
-                            maintainAspectRatio: false
+                            responsive: true,   // ✅ Auto resizes based on screen size
+                            maintainAspectRatio: false,  // ✅ Prevents distortion
+                            scales: {
+                                x: {
+                                    title: { display: true, text: "Time (HH:MM)" },
+                                    ticks: { autoSkip: true, maxTicksLimit: 10 }
+                                },
+                                y: {
+                                    title: { display: true, text: "Temperature (°C)" },
+                                    suggestedMin: 0,  // ✅ Prevents scale from starting too low
+                                    suggestedMax: 40  // ✅ Adjust this based on expected values
+                                }
+                            }
                         }
                     });
                 })
