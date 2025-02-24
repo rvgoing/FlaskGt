@@ -7,7 +7,7 @@ API_KEY = "e12e36503ebdefccbc6c4d8bf9a6158f"  # Replace with your API Key
 
 CITIES = {
     "Taipei": "Taipei",
-    "Tokyo": "Tokyo"
+    "Brisbane": "Brisbane"
 }
 
 @app.route("/")
