@@ -5,7 +5,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <h1>Weather Forecast for Taipei, Brisbane & Oulu</h1>
+    <h1>Weather Forecast</h1>
     <canvas id="weatherChart"></canvas>
 
     <script>
@@ -14,30 +14,21 @@
             .then(data => {
                 const ctx = document.getElementById("weatherChart").getContext("2d");
                 
+                const datasets = Object.keys(data).map((city, index) => {
+                    const colors = ["blue", "red", "yellow", "green", "purple"]; // Add more colors if needed
+                    return {
+                        label: `${city} Temperature (°C)`,
+                        data: data[city].temps,
+                        borderColor: colors[index % colors.length], // Assign a color
+                        fill: false
+                    };
+                });
+
                 new Chart(ctx, {
                     type: "line",
                     data: {
-                        labels: data.Taipei.labels,  // Use Taipei's timestamps
-                        datasets: [
-                            {
-                                label: "Taipei Temperature (°C)",
-                                data: data.Taipei.temps,
-                                borderColor: "blue",
-                                fill: false
-                            },
-                            {
-                                label: "Brisbane Temperature (°C)",
-                                data: data.Brisbane.temps,
-                                borderColor: "red",
-                                fill: false
-                            },
-                            {
-                                label: "Oulu Temperature (°C)",
-                                data: data.Oulu.temps,
-                                borderColor: "yellow",
-                                fill: false
-                            }
-                        ]
+                        labels: data[Object.keys(data)[0]].labels, // Use the first city's timestamps
+                        datasets: datasets
                     }
                 });
             });
