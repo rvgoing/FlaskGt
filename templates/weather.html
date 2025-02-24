@@ -13,21 +13,22 @@
             .then(response => response.json())
             .then(data => {
                 const ctx = document.getElementById("weatherChart").getContext("2d");
-                
+
                 const datasets = Object.keys(data).map((city, index) => {
-                    const colors = ["blue", "red", "yellow", "green", "purple"]; // Add more colors if needed
+                    const colors = ["blue", "red", "yellow", "green", "purple"];
                     return {
                         label: `${city} Temperature (°C)`,
                         data: data[city].temps,
-                        borderColor: colors[index % colors.length], // Assign a color
+                        borderColor: colors[index % colors.length],
                         fill: false,
-                        tension: 0.4 // ✅ Add smooth curve
+                        tension: 0.4 // ✅ Smooth curve
+                    };
                 });
 
                 new Chart(ctx, {
                     type: "line",
                     data: {
-                        labels: data[Object.keys(data)[0]].labels, // Use the first city's timestamps
+                        labels: data[Object.keys(data)[0]].labels, // Use first city's timestamps
                         datasets: datasets
                     }
                 });
