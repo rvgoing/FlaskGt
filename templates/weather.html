@@ -21,10 +21,7 @@
                         data: data[city].temps,
                         borderColor: colors[index % colors.length], // Assign a color
                         fill: false,
-                        tension: 0.4, // ✅ Add smooth curve
-                        pointRadius: 0, // ✅ Remove dots
-                        pointHoverRadius: 0 // ✅ No dots on hover
-                    };
+                        tension: 0.4
                 });
 
                 new Chart(ctx, {
