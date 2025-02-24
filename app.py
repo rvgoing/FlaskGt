@@ -5,11 +5,8 @@ app = Flask(__name__)
 
 API_KEY = "e12e36503ebdefccbc6c4d8bf9a6158f"  # Replace with your API Key
 
-CITIES = {
-    "Taipei": "Taipei",
-    "Brisbane": "Brisbane",
-    "Oulu": "Oulu"
-}
+# ✅ Modify this list to change cities!
+CITIES = ["Taipei", "Brisbane", "Oulu"]  
 
 @app.route("/")
 def home():
@@ -19,15 +16,15 @@ def home():
 def get_weather():
     data_dict = {}
 
-    for city_name, city in CITIES.items():
+    for city in CITIES:
         url = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={API_KEY}&units=metric"
         response = requests.get(url)
         data = response.json()
 
-        labels = [item["dt_txt"] for item in data["list"][:80]]
-        temps = [item["main"]["temp"] for item in data["list"][:80]]
+        labels = [item["dt_txt"] for item in data["list"][:8]]  # Next 8 time slots
+        temps = [item["main"]["temp"] for item in data["list"][:8]]
 
-        data_dict[city_name] = {"labels": labels, "temps": temps}
+        data_dict[city] = {"labels": labels, "temps": temps}
 
     return jsonify(data_dict)
 
