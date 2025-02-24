@@ -8,6 +8,8 @@ API_KEY = "e12e36503ebdefccbc6c4d8bf9a6158f"  # Replace with your API Key
 # ✅ Modify this list to change cities!
 CITIES = ["Taipei", "Brisbane", "Oulu"]  
 
+tslot = 80 # Next time slots
+
 @app.route("/")
 def home():
     return render_template("weather.html")
@@ -21,8 +23,8 @@ def get_weather():
         response = requests.get(url)
         data = response.json()
 
-        labels = [item["dt_txt"] for item in data["list"][:8]]  # Next 8 time slots
-        temps = [item["main"]["temp"] for item in data["list"][:8]]
+        labels = [item["dt_txt"] for item in data["list"][:tslot]]  # Next 8 time slots
+        temps = [item["main"]["temp"] for item in data["list"][:tslot]]
 
         data_dict[city] = {"labels": labels, "temps": temps}
 
