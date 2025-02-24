@@ -20,7 +20,8 @@
                         label: `${city} Temperature (°C)`,
                         data: data[city].temps,
                         borderColor: colors[index % colors.length], // Assign a color
-                        fill: false
+                        fill: false,
+                        tension: 0.4 // ✅ Add smooth curve
                     };
                 });
 
