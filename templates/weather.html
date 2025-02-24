@@ -6,6 +6,7 @@
 </head>
 <body>
     <h1>Weather Forecast</h1>
+    <button onclick="window.location.href='/'">Back to Main Page</button>
     <canvas id="weatherChart"></canvas>
 
     <script>
@@ -21,16 +22,16 @@
                         data: data[city].temps,
                         borderColor: colors[index % colors.length],
                         fill: false,
-                        pointRadius: 0,
-                        pointHoverRadius: 0,
-                        tension: 0.4 // ✅ Smooth curve
+                        tension: 0.4,  // ✅ Smooth curve
+                        pointRadius: 0,  // ✅ Remove dots
+                        pointHoverRadius: 0  // ✅ No dots on hover
                     };
                 });
 
                 new Chart(ctx, {
                     type: "line",
                     data: {
-                        labels: data[Object.keys(data)[0]].labels, // Use first city's timestamps
+                        labels: data[Object.keys(data)[0]].labels,
                         datasets: datasets
                     }
                 });
