@@ -5,7 +5,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <h1>Weather Forecast for Taipei & Tokyo</h1>
+    <h1>Weather Forecast for Taipei, Brisbane & Oulu</h1>
     <canvas id="weatherChart"></canvas>
 
     <script>
@@ -17,7 +17,7 @@
                 new Chart(ctx, {
                     type: "line",
                     data: {
-                        labels: data.Taipei.labels,
+                        labels: data.Taipei.labels,  // Use Taipei's timestamps
                         datasets: [
                             {
                                 label: "Taipei Temperature (°C)",
@@ -26,9 +26,15 @@
                                 fill: false
                             },
                             {
-                                label: "Tokyo Temperature (°C)",
-                                data: data.Tokyo.temps,
+                                label: "Brisbane Temperature (°C)",
+                                data: data.Brisbane.temps,
                                 borderColor: "red",
+                                fill: false
+                            },
+                            {
+                                label: "Oulu Temperature (°C)",
+                                data: data.Oulu.temps,
+                                borderColor: "yellow",
                                 fill: false
                             }
                         ]
