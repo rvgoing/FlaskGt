@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Weather Forecast</h1>
-    
+
     <!-- Dropdown to select time slot -->
     <label for="tslot">Select Time Slots:</label>
     <select id="tslot" onchange="fetchWeatherData()">
@@ -18,44 +18,51 @@
 
     <button onclick="window.location.href='/'">Back to Main Page</button>
 
-    <canvas id="weatherChart"></canvas>
+    <canvas id="weatherChart" width="800" height="400"></canvas>
 
     <script>
         let weatherChart;
 
         function fetchWeatherData() {
-            const tslot = document.getElementById("tslot").value;  // Get selected value
-            fetch(`/api/weather?tslot=${tslot}`)  // ✅ Request API with selected `tslot`
+            const tslot = document.getElementById("tslot").value;  // ✅ Get selected `tslot`
+            fetch(`/api/weather?tslot=${tslot}`)  // ✅ API call with `tslot`
                 .then(response => response.json())
                 .then(data => {
                     const ctx = document.getElementById("weatherChart").getContext("2d");
 
+                    // ✅ Extract city data
                     const datasets = Object.keys(data).map((city, index) => {
-                        const colors = ["blue", "red", "yellow", "green", "purple"];
+                        const colors = ["blue", "red", "yellow"];
                         return {
                             label: `${city} Temperature (°C)`,
                             data: data[city].temps,
                             borderColor: colors[index % colors.length],
                             fill: false,
-                            tension: 0.4
+                            tension: 0.4  // ✅ Smooth curve (dots are visible)
                         };
                     });
 
+                    // ✅ Check if chart already exists, destroy before updating
                     if (weatherChart) {
-                        weatherChart.destroy();  // ✅ Destroy previous chart before updating
+                        weatherChart.destroy();
                     }
 
+                    // ✅ Draw chart
                     weatherChart = new Chart(ctx, {
                         type: "line",
                         data: {
-                            labels: data[Object.keys(data)[0]].labels,
+                            labels: data[Object.keys(data)[0]].labels,  // Use timestamps from first city
                             datasets: datasets
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
                         }
                     });
-                });
+                })
+                .catch(error => console.error("Error fetching data:", error));
         }
 
-        window.onload = fetchWeatherData;  // Load default weather data when the page loads
+        window.onload = fetchWeatherData;  // ✅ Load chart when page opens
     </script>
-</body>
-</html>
+</bo
