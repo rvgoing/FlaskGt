@@ -1,5 +1,5 @@
 import requests
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request  # ✅ Fix: Import `request`
 
 app = Flask(__name__)
 
