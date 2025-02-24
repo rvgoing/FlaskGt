@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Weather Forecast</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* ✅ Ensure the chart container scales properly */
         .chart-container {
-            width: 90vw; /* ✅ 90% of viewport width */
-            height: 60vh; /* ✅ 60% of viewport height */
-            max-width: 1200px; /* ✅ Limit max width */
-            margin: auto; /* ✅ Center the chart */
+            width: 90vw;
+            /* ✅ 90% of viewport width */
+            height: 60vh;
+            /* ✅ 60% of viewport height */
+            max-width: 1200px;
+            /* ✅ Limit max width */
+            margin: auto;
+            /* ✅ Center the chart */
         }
 
         /* ✅ Style for time period label */
@@ -22,6 +27,7 @@
         }
     </style>
 </head>
+
 <body>
     <h1 style="text-align: center;">Weather Forecast</h1>
 
@@ -35,18 +41,18 @@
             <option value="30">30</option>
             <option value="50">50</option>
             <option value="100">100</option>
-            <option value="100">500</option>
-            <option value="100">1000</option>
+            <option value="500">500</option>
+            <option value="1000">1000</option>
         </select>
-<!--         <button onclick="window.location.href='/'">Back to Main Page</button> -->
+        <!--         <button onclick="window.location.href='/'">Back to Main Page</button> -->
         <button onclick="window.location.href='/'" style="margin-bottom: 20px;">
             Back to Main Page
         </button>
     </div>
 
-    
 
-    
+
+
     <!-- ✅ Responsive Chart Container -->
     <div class="chart-container">
         <canvas id="weatherChart"></canvas>
@@ -81,7 +87,7 @@
 
                     const labels = data[Object.keys(data)[0]].labels;
 
-                    document.getElementById("timePeriodLabel").innerText = 
+                    document.getElementById("timePeriodLabel").innerText =
                         `Showing data from ${labels[0]} to ${labels[labels.length - 1]}`;
 
                     weatherChart = new Chart(ctx, {
@@ -113,4 +119,5 @@
         window.onload = fetchWeatherData;
     </script>
 </body>
+
 </html>
