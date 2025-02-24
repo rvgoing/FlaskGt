@@ -18,17 +18,24 @@
 
     <button onclick="window.location.href='/'">Back to Main Page</button>
 
-    <canvas id="weatherChart" width="800" height="400"></canvas>
+    <div style="width: 800px; height: 400px;">
+        <canvas id="weatherChart"></canvas>  <!-- ✅ Keep inside a fixed-size div -->
+    </div>
 
     <script>
-        let weatherChart;
+        let weatherChart = null;  // ✅ Store chart instance globally
 
         function fetchWeatherData() {
-            const tslot = document.getElementById("tslot").value;  // ✅ Get selected `tslot`
-            fetch(`/api/weather?tslot=${tslot}`)  // ✅ API call with `tslot`
+            const tslot = document.getElementById("tslot").value;
+            fetch(`/api/weather?tslot=${tslot}`)
                 .then(response => response.json())
                 .then(data => {
                     const ctx = document.getElementById("weatherChart").getContext("2d");
+
+                    // ✅ If a chart already exists, destroy it to prevent duplicates
+                    if (weatherChart) {
+                        weatherChart.destroy();
+                    }
 
                     // ✅ Extract city data
                     const datasets = Object.keys(data).map((city, index) => {
@@ -38,20 +45,15 @@
                             data: data[city].temps,
                             borderColor: colors[index % colors.length],
                             fill: false,
-                            tension: 0.4  // ✅ Smooth curve (dots are visible)
+                            tension: 0.4  // ✅ Smooth curve
                         };
                     });
 
-                    // ✅ Check if chart already exists, destroy before updating
-                    if (weatherChart) {
-                        weatherChart.destroy();
-                    }
-
-                    // ✅ Draw chart
+                    // ✅ Create a new chart
                     weatherChart = new Chart(ctx, {
                         type: "line",
                         data: {
-                            labels: data[Object.keys(data)[0]].labels,  // Use timestamps from first city
+                            labels: data[Object.keys(data)[0]].labels,
                             datasets: datasets
                         },
                         options: {
@@ -65,4 +67,5 @@
 
         window.onload = fetchWeatherData;  // ✅ Load chart when page opens
     </script>
-</bo
+</body>
+</html>
