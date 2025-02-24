@@ -21,7 +21,7 @@
                         data: data[city].temps,
                         borderColor: colors[index % colors.length], // Assign a color
                         fill: false,
-                        tension: 0.4
+                        tension: 0.4 // ✅ Add smooth curve
                 });
 
                 new Chart(ctx, {
