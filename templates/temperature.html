@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Ensure the chart container scales properly */
+        .chart-container {
+            width: 90vw; /* 90% of viewport width */
+            height: 60vh; /* 60% of viewport height */
+            max-width: 1200px; /* Limit max width */
+            margin: auto; /* Center the chart */
+        }
+
+        /* Style for the heading */
+        #heading {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* Style for city label */
+        #cityLabel {
+            font-size: 20px;
+            font-weight: bold;
+            color: #6194ce;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- <h1>Temperature Forecast for {{ city }}</h1> -->
+    <div id="heading">Weather Forecast</div>
+    <div id="cityLabel">City: {{ city }}</div>
+    <div class="chart-container">
+        <canvas id="temperatureChart"></canvas>
+    </div>
+    <script>
+        let temperatureChart = null;
+
+        function drawChart(times, temperatures) {
+            const ctx = document.getElementById('temperatureChart').getContext('2d');
+
+            if (temperatureChart) {
+                temperatureChart.destroy();
+            }
+
+            temperatureChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: times,
+                    datasets: [{
+                        label: 'Temperature (°C)',
+                        data: temperatures,
+                        borderColor: 'rgba(255, 0, 0, 1)',  // Set borderColor to red
+                        backgroundColor: "rgba(255, 0, 0, 0.3)",
+                        fill: {
+                            target: "origin", // Set the fill options
+                            above: "rgba(255, 0, 0, 0.3)"
+                        },
+                        borderWidth: 1,
+                        fill: true,
+                        pointRadius: 0,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,   // Auto resizes based on screen size
+                    maintainAspectRatio: false,  // Prevents distortion
+                    
+                    scales: {
+                        // x: {
+                        //     title: { display: true, text: "Time per DAY", padding: { top: 30 } },
+                        //     ticks: { autoSkip: true, maxTicksLimit: 10 }                            
+                        // },
+
+                        x: {
+                            title: { 
+                                display: true, 
+                                text: "Time per DAY", 
+                                padding: { top: 30 },
+                                font: {
+                                    size: 30,
+                                    family: 'Arial',
+                                    weight: 'bold'
+                                },
+                                color: '#0000FF' // Blue color
+                            },
+                            ticks: { autoSkip: true, maxTicksLimit: 10 }
+                        },
+
+
+
+                        y: {
+                            // title: { display: true, text: "Temperature (°C)" },
+                            title: { 
+                                display: true, 
+                                text: "Temperature (°C)", 
+                                padding: 30 ,
+                                font: {
+                                    size: 20,
+                                    family: 'Arial',
+                                    weight: 'bold'
+                                },
+                                color: '#00FF0F' // Blue color
+                            },
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+
+            
+        }
+
+        // Fetch the data and draw the chart
+        fetch('/temperature_chart_data')
+            .then(response => response.json())
+            .then(data => {
+                drawChart(data.times, data.temperatures);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>
