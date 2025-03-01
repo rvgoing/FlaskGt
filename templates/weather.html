@@ -41,11 +41,8 @@
             <option value="30">30</option>
             <option value="50">50</option>
             <option value="100">100</option>
-<<<<<<< HEAD
             <option value="500">500</option>
             <option value="1000">1000</option>
-=======
->>>>>>> ceb86e087e16214ad39ae909039b50cf9375d251
         </select>
         <!--         <button onclick="window.location.href='/'">Back to Main Page</button> -->
         <button onclick="window.location.href='/'" style="margin-bottom: 20px;">
@@ -90,6 +87,16 @@
                     });
 
                     const labels = data[Object.keys(data)[0]].labels;
+
+                    // Get the current time and format it as HH:MM
+                    const currentTime = new Date();
+                    const formattedTime = currentTime.toTimeString().split(' ')[0].substring(0, 5);
+
+                    // Add the current time to the beginning of the labels array
+                    labels.unshift(formattedTime);
+
+                    document.getElementById("timePeriodLabel").innerText =
+                    `Showing data from ${labels[0]} to ${labels[labels.length - 1]}`;
 
                     document.getElementById("timePeriodLabel").innerText =
                         `Showing data from ${labels[0]} to ${labels[labels.length - 1]}`;
