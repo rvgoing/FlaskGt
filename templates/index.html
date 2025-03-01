@@ -2,9 +2,59 @@
 <html>
 <head>
     <title>Main Page</title>
+    <style>
+        /* Style for the Weather Chart button */
+        .btn-weather {
+            font-size: 20px; /* Change font size */
+            padding: 10px 20px; /* Change padding */
+            margin: 10px; /* Add margin */
+            background-color: #4CAF50; /* Green background */
+            color: white; /* White text */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            display: inline-block; /* Ensure buttons are inline */
+            text-align: center; /* Center text */
+        }
+
+        .btn-weather:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        /* Style for the Humidity Chart button */
+        .btn-humidity {
+            font-size: 20px; /* Change font size */
+            padding: 10px 20px; /* Change padding */
+            margin: 10px; /* Add margin */
+            background-color: #2196F3; /* Blue background */
+            color: white; /* White text */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            display: inline-block; /* Ensure buttons are inline */
+            text-align: center; /* Center text */
+        }
+
+        .btn-humidity:hover {
+            background-color: #1976D2; /* Darker blue on hover */
+        }
+
+        /* Container for buttons */
+        .button-container {
+            display: flex;
+            justify-content: center; /* Align buttons to center */
+            gap: 20px; /* Add space between buttons */
+            margin: 20px;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>Hello Flask</h1>
-    <button onclick="window.location.href='/weather'">Go to Weather Chart</button>
+    <!-- <h1>Hello Flask</h1> -->
+    <h1 style="text-align: center;">Hello Flask</h1>
+    <div class="button-container">
+        <button class="btn-weather" onclick="window.location.href='/temperature_chart'">Go to Weather Chart</button>
+        <button class="btn-humidity" onclick="window.location.href='/humidity_chart'">Go to Humidity Chart</button>
+    </div>
 </body>
 </html>
